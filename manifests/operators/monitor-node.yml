@@ -2,6 +2,12 @@
 
 # Grafana Dashboards
 - type: replace
+  path: /releases/name=node-exporter
+  value:
+    name: node-exporter
+    version: latest
+
+- type: replace
   path: /instance_groups/name=grafana/jobs/name=system_dashboards?/release
   value: prometheus
 

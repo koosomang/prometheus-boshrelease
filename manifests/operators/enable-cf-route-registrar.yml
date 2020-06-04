@@ -32,7 +32,7 @@
     consumes:
       nats:
         from: nats
-        deployment: ((cf_deployment_name))
+        deployment: ((metron_deployment_name))
     properties:
       route_registrar:
         routing_api:

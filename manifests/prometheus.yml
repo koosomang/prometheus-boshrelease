@@ -4,13 +4,13 @@ name: prometheus
 instance_groups:
   - name: alertmanager
     azs:
-      - z1
+      - ((az2)) 
     instances: 1
-    vm_type: default
+    vm_type: ((vm_type))
     persistent_disk: 1_024
     stemcell: default
     networks:
-      - name: default
+      - name: ((network))
     jobs:
       - name: alertmanager
         release: prometheus
@@ -25,13 +25,13 @@ instance_groups:
 
   - name: prometheus2
     azs:
-      - z1
+      - ((az2))
     instances: 1
-    vm_type: default
+    vm_type: ((vm_type))
     persistent_disk: 10_240
     stemcell: default
     networks:
-      - name: default
+      - name: ((network))
     jobs:
       - name: prometheus2
         release: prometheus
@@ -52,13 +52,13 @@ instance_groups:
 
   - name: database
     azs:
-      - z1
+      - ((az2))
     instances: 1
-    vm_type: default
+    vm_type: ((vm_type))
     persistent_disk: 10_240
     stemcell: default
     networks:
-      - name: default
+      - name: ((network)) 
     jobs:
       - name: postgres
         release: postgres
@@ -79,13 +79,13 @@ instance_groups:
 
   - name: grafana
     azs:
-      - z1
+      - ((az2))
     instances: 1
-    vm_type: default
+    vm_type: ((vm_type))
     persistent_disk: 1_024
     stemcell: default
     networks:
-      - name: default
+      - name: ((network))
     jobs:
       - name: grafana
         release: prometheus
@@ -122,12 +122,13 @@ instance_groups:
 
   - name: nginx
     azs:
-      - z1
+      - ((az2))
     instances: 1
-    vm_type: default
+    vm_type: ((vm_type))
     stemcell: default
     networks:
-      - name: default
+      - name: ((network))
+        static_ips : [&web-ip ((nginx_ip_address))]
     jobs:
       - name: nginx
         release: prometheus
@@ -142,6 +143,18 @@ instance_groups:
                 - name: admin
                   password: ((prometheus_password))
 
+  - name: node-exporter
+    azs:
+      - ((az2))
+    instances: 1
+    vm_type: ((vm_type))
+    stemcell: default
+    networks:
+      - name: ((network))
+    jobs:
+      - name: node_exporter
+        release: node-exporter    
+
 variables:
   - name: alertmanager_password
     type: password
@@ -152,6 +165,10 @@ variables:
   - name: grafana_password
     type: password
   - name: grafana_secret_key
+    type: password
+  - name: uaa_clients_cf_exporter_secret
+    type: password
+  - name: uaa_clients_firehose_exporter_secret
     type: password
 
 update:
@@ -175,3 +192,7 @@ releases:
   version: 26.2.0
   url: https://github.com/bosh-prometheus/prometheus-boshrelease/releases/download/v26.2.0/prometheus-26.2.0.tgz
   sha1: 2e47fad474d5f88ad034a45a765c4b3dfb76fbcf
+- name: node-exporter
+  version: 4.2.0
+  url: https://github.com/bosh-prometheus/node-exporter-boshrelease/releases/download/v4.2.0/node-exporter-4.2.0.tgz
+  sha1: 7161837435dae4bdc1a9356f7d411be3822666ea
