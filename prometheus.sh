@@ -16,6 +16,6 @@ bosh -d prometheus deploy manifests/prometheus.yml \
 	-v metrics_environment=172.16.25.145:9193/metrics \
 	--var-file bosh_ca_cert=/root/opsmgr/prometheus-boshrelease/root_ca_cert \
         -v system_domain=sys.data.kr \
-        -v traffic_controller_external_port=8080\
+        -v traffic_controller_external_port=443\
         -v skip_ssl_verify="true"\
 	-v metron_deployment_name="cf-74978c84245cd3043b85"
