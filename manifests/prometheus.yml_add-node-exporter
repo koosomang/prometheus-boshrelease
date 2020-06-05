@@ -143,6 +143,18 @@ instance_groups:
               auth_users:
                 - name: admin
                   password: ((prometheus_password))
+                  
+  - name: node-exporter
+    azs:
+      - ((az2))
+    instances: 1
+    vm_type: ((vm_type))
+    stemcell: default
+    networks:
+      - name: ((network))
+    jobs:
+      - name: node_exporter
+        release: node-exporter  
 
 variables:
   - name: alertmanager_password
@@ -181,3 +193,7 @@ releases:
   version: 26.2.0
   url: https://github.com/bosh-prometheus/prometheus-boshrelease/releases/download/v26.2.0/prometheus-26.2.0.tgz
   sha1: 2e47fad474d5f88ad034a45a765c4b3dfb76fbcf
+- name: node-exporter
+  version: 4.2.0
+  url: https://github.com/bosh-prometheus/node-exporter-boshrelease/releases/download/v4.2.0/node-exporter-4.2.0.tgz
+  sha1: 7161837435dae4bdc1a9356f7d411be3822666ea
