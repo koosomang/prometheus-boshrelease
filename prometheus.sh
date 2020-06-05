@@ -4,7 +4,7 @@ bosh -d prometheus deploy manifests/prometheus.yml \
 	-o manifests/operators/monitor-bosh.yml \
         -o manifests/operators/monitor-cf.yml \
 	-v network=service-net \
-	-v vm_type=small \
+	-v vm_type=medium \
 	-v az2=az2 \
         -v nginx_ip_address=172.16.25.148 \
 	-v firehose_ip_address=172.16.25.149 \
